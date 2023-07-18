@@ -36,8 +36,14 @@ const Ws = require('ws');
     }
 
     function handleMessage(msg) {
-        //前端发送过来的数据
-        console.log(msg);
+        // 接收前端发送过来的数据
+        // 这里msg是个blob
+        console.log(JSON.parse(msg));
+        // server.clients -- 服务端连接到的所有客户端
+        // 找到每个客户端，利用 c 将信息发送出去
+        server.clients.forEach(function (c) {
+            c.send(JSON.stringify(JSON.parse(msg)));
+        })
     }
 
     init();
